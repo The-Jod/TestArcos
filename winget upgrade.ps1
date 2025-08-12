@@ -1,15 +1,14 @@
-# Verifica si winget está disponible
-if (Get-Command winget -ErrorAction SilentlyContinue) {
-    winget upgrade --all --silent
-} else {
-    Write-Output "Winget no está disponible en este equipo."
-}
+# Forzar búsqueda de actualizaciones
+UsoClient StartScan
 
-# Verifica si el módulo PSWindowsUpdate está instalado
-if (Get-Module -ListAvailable -Name PSWindowsUpdate) {
-    Import-Module PSWindowsUpdate
-    Get-WindowsUpdate -AcceptAll -Install -AutoReboot
-} else {
-    Write-Output "El módulo PSWindowsUpdate no está instalado."
-}
+# Esperar un poco para que inicie la búsqueda (opcional)
+Start-Sleep -Seconds 10
 
+# Forzar descarga de actualizaciones
+UsoClient StartDownload
+
+# Esperar un poco para que inicie la descarga (opcional)
+Start-Sleep -Seconds 20
+
+# Forzar instalación de actualizaciones
+UsoClient StartInstall
